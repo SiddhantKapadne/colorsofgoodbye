@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#1c1c1e" />
+    <title>Colors of Goodbye - Data Narrative</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-glow" aria-hidden="true"></div>
+    <header class="hero section">
+      <img class="hero-sun" src="assets/images/hero-Sunset.png" alt="Glowing sunset" />
+      <h1>Colors of goodbye</h1>
+      <p class="kicker">Same sun that sets differently</p>
+      <p class="byline">
+        by Jaisriram Rajkumar and Kapadne Siddhant
+        <span>24th February 2026</span>
+      </p>
+      <p class="subtitle">
+        This project began during a photography session capturing a sunset as it
+        rapidly changed while the sun was setting. Reviewing the photographs
+        later revealed that the images, taken roughly a minute apart, showed
+        clearly distinguishable shifts in colour and light. Arranging slices of
+        these photographs into a circular composition created a visual form
+        resembling the sun itself, yet what it truly represented was the
+        harmonious transition of the sunset over time.
+      </p>
+    </header>
+
+    <main>
+      <section id="timeline" class="section">
+        <div class="sun-capture-wrap">
+          <img
+            class="sun-capture"
+            src="assets/images/sunsetCaptured.png"
+            alt="Sliced sunset capture progression"
+          />
+        </div>
+        <p class="timeline-caption">
+          figure 1 shows image captured over the time of sunset by Jaisriram
+        </p>
+      </section>
+
+      <section class="section camera">
+        <div class="section-head">
+          <h2>Camera settings</h2>
+        </div>
+        <div class="camera-grid">
+          <div class="camera-col">
+            <p><span>Dimension</span><strong>5184 x 3456</strong></p>
+            <p><span>Camera</span><strong>Canon EOS 70D</strong></p>
+            <p><span>Lens</span><strong>EF-S55-250mm F/4-5.6 IS II</strong></p>
+            <p><span>Exposure</span><strong>Manual EV</strong></p>
+          </div>
+          <div class="camera-col">
+            <p><span>Focal length</span><strong>250 mm</strong></p>
+            <p><span>Aperture</span><strong>f/22</strong></p>
+            <p><span>Shutter speed</span><strong>1/4000 sec</strong></p>
+            <p><span>ISO</span><strong>100</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section gases">
+        <div class="section-head">
+          <h2>Which Gas on earth gives what color</h2>
+        </div>
+      <div class="gases-image-wrap" style="text-align:center;">
+        <img src="assets/images/Gases.png" alt="Gases giving sunset colors on Earth" style="max-width: 100%; height: auto;" />
+      </div>
+      </section>
+
+      <section class="section solar-system">
+        <div class="section-head" style="margin-top: 75px;">
+          <h2>Sunsets Don't Feel the Same for Everyone
+          </h2>
+        </div>
+        <img class="solar-system-image" src="assets/images/SolarSystem.png" alt="Solar system" />
+      </section>
+
+      <section class="section sunset-data">
+        <div class="section-head" style="margin-top: 32px;">
+          <h2 style="text-align: center;">Sunset on different planets</h2>
+        </div>
+        <p class="subtitle sunset-data-lede">
+          Simulating environment of other planets on earth to check how it
+          effects the sunset in those 9 minutes, which is as good as seeing the
+          sunset from other planets
+        </p>
+
+        <div class="planet-stepper-layout planet-stepper-hybrid">
+          <ol class="planet-stepper" aria-label="Planets">
+            <li class="planet-step active" data-planet="Mercury">
+              <a href="#pane-mercury" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Mercury</span>
+                  <span class="step-subtitle">Sharp contrast with fast darkening skies.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Venus">
+              <a href="#pane-venus" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Venus</span>
+                  <span class="step-subtitle">Dense haze softens sunset into warm bands.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Earth">
+              <a href="#pane-earth" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Earth</span>
+                  <span class="step-subtitle">Balanced scattering creates familiar orange-red tones.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Mars">
+              <a href="#pane-mars" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Mars</span>
+                  <span class="step-subtitle">Dust-rich air gives cooler, muted sunset edges.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Jupiter">
+              <a href="#pane-jupiter" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Jupiter</span>
+                  <span class="step-subtitle">Layered clouds blend amber and smoky hues.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Saturn">
+              <a href="#pane-saturn" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Saturn</span>
+                  <span class="step-subtitle">Pale atmosphere fades light into soft gold.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Uranus">
+              <a href="#pane-uranus" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Uranus</span>
+                  <span class="step-subtitle">Methane tint shifts sunset toward cyan blue.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Neptune">
+              <a href="#pane-neptune" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Neptune</span>
+                  <span class="step-subtitle">Deep blue atmosphere creates dramatic cool dusk.</span>
+                </span>
+              </a>
+            </li>
+            <li class="planet-step" data-planet="Pluto">
+              <a href="#pane-pluto" class="planet-step-link">
+                <span class="planet-step-indicator" aria-hidden="true"></span>
+                <span class="step-copy">
+                  <span class="step-title">Pluto</span>
+                  <span class="step-subtitle">Thin air leaves a stark, low-light horizon.</span>
+                </span>
+              </a>
+            </li>
+          </ol>
+
+          <div class="planet-scroll-column">
+            <section id="pane-mercury" class="planet-pane" data-planet="Mercury">
+              <img src="assets/images/Mercury.png" alt="Mercury sunset simulation" />
+            </section>
+            <section id="pane-venus" class="planet-pane" data-planet="Venus">
+              <img src="assets/images/Venus.png" alt="Venus sunset simulation" />
+            </section>
+            <section id="pane-earth" class="planet-pane" data-planet="Earth">
+              <img src="assets/images/Earth.png" alt="Earth sunset simulation" />
+            </section>
+            <section id="pane-mars" class="planet-pane" data-planet="Mars">
+              <img src="assets/images/Mars.png" alt="Mars sunset simulation" />
+            </section>
+            <section id="pane-jupiter" class="planet-pane" data-planet="Jupiter">
+              <img src="assets/images/Jupiter.png" alt="Jupiter sunset simulation" />
+            </section>
+            <section id="pane-saturn" class="planet-pane" data-planet="Saturn">
+              <img src="assets/images/Saturn.png" alt="Saturn sunset simulation" />
+            </section>
+            <section id="pane-uranus" class="planet-pane" data-planet="Uranus">
+              <img src="assets/images/Uranus.png" alt="Uranus sunset simulation" />
+            </section>
+            <section id="pane-neptune" class="planet-pane" data-planet="Neptune">
+              <img src="assets/images/Neptune.png" alt="Neptune sunset simulation" />
+            </section>
+            <section id="pane-pluto" class="planet-pane" data-planet="Pluto">
+              <img src="assets/images/Pluto.png" alt="Pluto sunset simulation" />
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="section color-palette-chart" id="color-palette-chart" aria-labelledby="palette-heading">
+        <div class="section-head">
+          <h2 id="palette-heading">Tap the colour and steal the sky</h2>
+        </div>
+        <div class="palette-scroll" style="margin-top: 64px;">
+          <div class="palette-grid" id="paletteGrid"></div>
+        </div>
+        <p class="copy-toast" id="copyToast" role="status" aria-live="polite" aria-atomic="true"></p>
+      </section>
+
+      <section class="section color-theory" id="color-theory" aria-labelledby="color-theory-heading">
+        <div class="section-head">
+          <h2 id="color-theory-heading">Now we have colour as data</h2>
+          <p class="color-theory-subhead">What does color theory tells us about sunset of each planet</p>
+        </div>
+
+        <div class="color-theory-block">
+          <h3>Hue</h3>
+          <div class="hue-chart-main">
+            <img class="hue-chart-image" src="assets/images/HUE.png" alt="Hue Trend Over Minutes chart showing planet hue progression from 00:01 to 00:09" />
+          </div>
+          <blockquote>
+            what we perceive as "natural" is actually a localized illusion shaped by our planet.
+          </blockquote>
+          <p>
+            The progression in sunsets behaves like a dynamic color gradient: each planet shifts
+            along the spectrum based on how its atmosphere filters and scatters light.
+          </p>
+        </div>
+
+        <div class="color-theory-block">
+          <h3>Saturation</h3>
+          <div class="hue-chart-main">
+            <img class="hue-chart-image" src="assets/images/SATURATION.png" alt="Saturation Trend Over Minutes chart showing planetary saturation changes from 00:01 to 00:09" />
+          </div>
+          <blockquote>
+            "rich" or "dull" color is actually a result of atmospheric instability
+          </blockquote>
+          <p>
+            Saturation across planetary sunsets behaves like an intensity curve some planets
+            amplify color vividness over time while others fade or collapse into muted tones.
+          </p>
+        </div>
+
+        <div class="color-theory-block">
+          <h3>Brightness</h3>
+          <div class="hue-chart-main">
+            <img class="hue-chart-image" src="assets/images/BRIGHTNESS.png" alt="Brightness Trend Over Minutes chart showing planetary luminance changes from 00:01 to 00:09" />
+          </div>
+          <blockquote>
+            Lights DIM - making light falloff the hidden controller of visual experience.
+          </blockquote>
+          <p>
+            Brightness across planetary sunsets follows a decay curve most planets rapidly lose
+            luminance over time, shifting scenes from high visibility to low-light conditions.
+          </p>
+        </div>
+
+        <div class="color-theory-block">
+          <h3>Temperature</h3>
+          <div class="hue-chart-main">
+            <img class="hue-chart-image" src="assets/images/TEMPERATURE.png" alt="Color Temperature Trend Over Minutes chart showing planetary warm and cool shifts from 00:01 to 00:09" />
+          </div>
+          <blockquote>
+            atmospheric conditions can suddenly reframe a sunset from "warm comforting" to "cold
+            distant"
+          </blockquote>
+          <p>
+            Color temperature across planetary sunsets shifts between warm and cool extremes some
+            planets maintain cool (bluish) tones while others stabilize in warm (redish/orange)
+            ranges.
+          </p>
+        </div>
+      </section>
+    </main>
+
+
+    <footer class="footer">
+      <div class="footer-hero">
+        <div class="footer-fullbleed-bg" aria-hidden="true"></div>
+      </div>
+
+      <div class="footer-inner section">
+        <div class="footer-bottom-bar">
+          <div class="footer-bottom-cluster footer-bottom-left">
+            <span class="footer-person-inline-name">Jaisriram Rajkumar</span>
+            <div class="footer-cta-row">
+              <a class="footer-link-cta" href="https://www.linkedin.com/in/jaisriram-rajkumar" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a class="footer-link-cta" href="https://www.behance.net/jaisriramr1" target="_blank" rel="noopener noreferrer">Portfolio</a>
+            </div>
+          </div>
+          <p class="footer-tagline">Data Narrative</p>
+          <div class="footer-bottom-cluster footer-bottom-right">
+            <span class="footer-person-inline-name">Siddhant Kapadne</span>
+            <div class="footer-cta-row">
+              <a class="footer-link-cta" href="https://www.linkedin.com/in/siddhant-kapadne-459013159/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a class="footer-link-cta" href="https://www.siddhant.website/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
