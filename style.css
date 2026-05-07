@@ -656,7 +656,7 @@ input[type="range"] {
 
 @media (max-width: 700px) {
   .section {
-    padding: 3rem 0;
+    padding: 0rem 0;
   }
 
   .slice {
