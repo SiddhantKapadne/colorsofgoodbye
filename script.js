@@ -71,10 +71,24 @@ function initHeroSunAutoScroll() {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (prefersReducedMotion) return;
 
+  const scrollThresholdPx = 8;
+  const initialScrollY = window.scrollY;
+  let userHasScrolled = false;
   let didScrollAfterFade = false;
+
+  function markUserScrollIfMoved() {
+    if (Math.abs(window.scrollY - initialScrollY) > scrollThresholdPx) {
+      userHasScrolled = true;
+    }
+  }
+
+  window.addEventListener("scroll", markUserScrollIfMoved, { passive: true });
+
   heroSun.addEventListener("animationend", (event) => {
     if (didScrollAfterFade || event.animationName !== "heroSunFadeShrink") return;
     didScrollAfterFade = true;
+    window.removeEventListener("scroll", markUserScrollIfMoved);
+    if (userHasScrolled) return;
     window.scrollTo({ top: 200, behavior: "smooth" });
   });
 }
