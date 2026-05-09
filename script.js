@@ -1,94 +1,247 @@
-function initPlanetStepper() {
-  const stepper = document.querySelector(".planet-stepper-hybrid .planet-stepper");
-  if (!stepper) return;
+const PLANET_STEPPER_DATA = [
+  {
+    id: "mercury",
+    name: "Mercury",
+    image: "assets/images/Mercury.png",
+    alt: "Mercury sunset simulation",
+    description: "Sharp contrast with fast darkening skies.",
+  },
+  {
+    id: "venus",
+    name: "Venus",
+    image: "assets/images/Venus.png",
+    alt: "Venus sunset simulation",
+    description: "Dense haze softens sunset into warm bands.",
+  },
+  {
+    id: "earth",
+    name: "Earth",
+    image: "assets/images/Earth.png",
+    alt: "Earth sunset simulation",
+    description: "Balanced scattering creates familiar orange-red tones.",
+  },
+  {
+    id: "mars",
+    name: "Mars",
+    image: "assets/images/Mars.png",
+    alt: "Mars sunset simulation",
+    description: "Dust-rich air gives cooler, muted sunset edges.",
+  },
+  {
+    id: "jupiter",
+    name: "Jupiter",
+    image: "assets/images/Jupiter.png",
+    alt: "Jupiter sunset simulation",
+    description: "Layered clouds blend amber and smoky hues.",
+  },
+  {
+    id: "saturn",
+    name: "Saturn",
+    image: "assets/images/Saturn.png",
+    alt: "Saturn sunset simulation",
+    description: "Pale atmosphere fades light into soft gold.",
+  },
+  {
+    id: "uranus",
+    name: "Uranus",
+    image: "assets/images/Uranus.png",
+    alt: "Uranus sunset simulation",
+    description: "Methane tint shifts sunset toward cyan blue.",
+  },
+  {
+    id: "neptune",
+    name: "Neptune",
+    image: "assets/images/Neptune.png",
+    alt: "Neptune sunset simulation",
+    description: "Deep blue atmosphere creates dramatic cool dusk.",
+  },
+  {
+    id: "pluto",
+    name: "Pluto",
+    image: "assets/images/Pluto.png",
+    alt: "Pluto sunset simulation",
+    description: "Thin air leaves a stark, low-light horizon.",
+  },
+];
 
-  const steps = Array.from(stepper.querySelectorAll(".planet-step"));
-  const links = Array.from(stepper.querySelectorAll(".planet-step-link"));
-  const panes = Array.from(document.querySelectorAll(".planet-stepper-hybrid .planet-pane"));
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function initHeroSunAutoScroll() {
+  const heroSun = document.querySelector(".hero-sun");
+  if (!heroSun) return;
 
-  if (!steps.length || !panes.length) return;
-  let activePlanet = "";
-  let scrollTicking = false;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
 
-  function setActiveByPlanet(planet) {
-    if (!planet || activePlanet === planet) return;
-    activePlanet = planet;
-    steps.forEach((step) => {
-      const isActive = step.dataset.planet === planet;
-      step.classList.toggle("active", isActive);
-      if (isActive) step.setAttribute("aria-current", "step");
-      else step.removeAttribute("aria-current");
-    });
-  }
+  let didScrollAfterFade = false;
+  heroSun.addEventListener("animationend", (event) => {
+    if (didScrollAfterFade || event.animationName !== "heroSunFadeShrink") return;
+    didScrollAfterFade = true;
+    window.scrollTo({ top: 200, behavior: "smooth" });
+  });
+}
 
-  links.forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      const href = link.getAttribute("href");
-      const target = href ? document.querySelector(href) : null;
-      if (!target) return;
-      target.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
+function initBackgroundMusic() {
+  const bgMusic = document.getElementById("bgMusic");
+  if (!bgMusic) return;
+
+  bgMusic.volume = 0.17;
+  bgMusic.loop = true;
+
+  const tryPlay = () => {
+    const playAttempt = bgMusic.play();
+    if (playAttempt && typeof playAttempt.catch === "function") {
+      playAttempt.catch(() => {
+        // Autoplay can be blocked; retry on first user interaction.
       });
-      setActiveByPlanet(target.dataset.planet || "");
+    }
+  };
+
+  tryPlay();
+
+  const unlockAudio = () => {
+    tryPlay();
+    document.removeEventListener("click", unlockAudio);
+    document.removeEventListener("keydown", unlockAudio);
+    document.removeEventListener("touchstart", unlockAudio);
+  };
+
+  document.addEventListener("click", unlockAudio, { once: true });
+  document.addEventListener("keydown", unlockAudio, { once: true });
+  document.addEventListener("touchstart", unlockAudio, { once: true });
+}
+
+function initPlanetScrollStepper() {
+  const section = document.getElementById("planetScrollStepper");
+  const row = document.getElementById("planetStepperRow");
+  const currentImage = document.getElementById("planetStageImageCurrent");
+  const previousImage = document.getElementById("planetStageImagePrev");
+  const description = document.getElementById("planetStageDescription");
+  if (!section || !row || !currentImage || !previousImage || !description) return;
+
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let reduceMotion = mediaQuery.matches;
+  let activeIndex = -1;
+  let rafId = null;
+  let transitionTimer = null;
+  let jumpLock = false;
+
+  section.style.height = `${PLANET_STEPPER_DATA.length * 100}vh`;
+
+  PLANET_STEPPER_DATA.forEach((planet, index) => {
+    const item = document.createElement("li");
+    item.className = "planet-step";
+    item.dataset.index = String(index);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "planet-stepper-btn";
+    button.textContent = planet.name;
+    button.setAttribute("aria-label", `${planet.name}: ${planet.description}`);
+    button.addEventListener("click", () => {
+      const sectionTop = section.offsetTop;
+      const range = section.offsetHeight - window.innerHeight;
+      const segmentStart = index / PLANET_STEPPER_DATA.length;
+      const targetY = sectionTop + range * segmentStart + 1;
+
+      // Jump directly to the selected segment without stepping through others.
+      jumpLock = true;
+      setActiveStep(index);
+      window.scrollTo({ top: targetY, behavior: "auto" });
+      window.setTimeout(() => {
+        jumpLock = false;
+        syncByScroll();
+      }, reduceMotion ? 0 : 40);
     });
+
+    item.appendChild(button);
+    row.appendChild(item);
   });
 
-  function syncActiveStepOnScroll() {
-    const focusY = window.innerHeight * 0.45;
-    let closestPane = null;
-    let minDistance = Number.POSITIVE_INFINITY;
+  const stepItems = Array.from(row.querySelectorAll(".planet-step"));
 
-    panes.forEach((pane) => {
-      const rect = pane.getBoundingClientRect();
-      const paneCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(paneCenter - focusY);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestPane = pane;
-      }
+  PLANET_STEPPER_DATA.forEach((planet) => {
+    const img = new Image();
+    img.src = planet.image;
+  });
+
+  function setActiveStep(nextIndex) {
+    if (nextIndex === activeIndex) return;
+
+    const prevIndex = activeIndex;
+    const nextPlanet = PLANET_STEPPER_DATA[nextIndex];
+
+    stepItems.forEach((item, i) => {
+      const isActive = i === nextIndex;
+      item.classList.toggle("is-active", isActive);
+      const button = item.querySelector("button");
+      if (!button) return;
+      if (isActive) button.setAttribute("aria-current", "step");
+      else button.removeAttribute("aria-current");
     });
 
-    if (closestPane?.dataset.planet) {
-      setActiveByPlanet(closestPane.dataset.planet);
+    description.textContent = nextPlanet.description;
+    currentImage.alt = nextPlanet.alt;
+
+    if (prevIndex < 0 || reduceMotion) {
+      if (transitionTimer) window.clearTimeout(transitionTimer);
+      previousImage.className = "planet-stage-image is-hidden";
+      previousImage.setAttribute("aria-hidden", "true");
+      currentImage.src = nextPlanet.image;
+      currentImage.className = prevIndex < 0 ? "planet-stage-image" : "planet-stage-image is-fade-only";
+      transitionTimer = window.setTimeout(() => {
+        currentImage.className = "planet-stage-image";
+      }, 230);
+      activeIndex = nextIndex;
+      return;
     }
+
+    if (transitionTimer) window.clearTimeout(transitionTimer);
+    previousImage.src = currentImage.src;
+    previousImage.className = "planet-stage-image is-leaving";
+    previousImage.setAttribute("aria-hidden", "true");
+    currentImage.src = nextPlanet.image;
+    currentImage.className = "planet-stage-image is-entering";
+    transitionTimer = window.setTimeout(() => {
+      previousImage.className = "planet-stage-image is-hidden";
+      currentImage.className = "planet-stage-image";
+    }, 470);
+
+    activeIndex = nextIndex;
+  }
+
+  function syncByScroll() {
+    const rect = section.getBoundingClientRect();
+    const scrollRange = rect.height - window.innerHeight;
+    const progress = scrollRange <= 0 ? 0 : clamp(-rect.top / scrollRange, 0, 1);
+    const nextIndex = clamp(
+      Math.floor(progress * PLANET_STEPPER_DATA.length),
+      0,
+      PLANET_STEPPER_DATA.length - 1
+    );
+    setActiveStep(nextIndex);
   }
 
   function onScroll() {
-    if (scrollTicking) return;
-    scrollTicking = true;
-    window.requestAnimationFrame(() => {
-      syncActiveStepOnScroll();
-      scrollTicking = false;
+    if (jumpLock) return;
+    if (rafId !== null) return;
+    rafId = window.requestAnimationFrame(() => {
+      rafId = null;
+      syncByScroll();
     });
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      const planet = visible.target.dataset.planet;
-      if (planet) setActiveByPlanet(planet);
-    },
-    {
-      root: null,
-      rootMargin: "-30% 0px -55% 0px",
-      threshold: [0.2, 0.45, 0.7, 1],
-    }
-  );
+  mediaQuery.addEventListener("change", (event) => {
+    reduceMotion = event.matches;
+  });
 
-  panes.forEach((pane) => observer.observe(pane));
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", syncActiveStepOnScroll);
-  setActiveByPlanet(panes[0].dataset.planet || "Mercury");
-  syncActiveStepOnScroll();
+  window.addEventListener("resize", onScroll);
+  syncByScroll();
 }
 
-initPlanetStepper();
+initPlanetScrollStepper();
+initHeroSunAutoScroll();
+initBackgroundMusic();
 
 /* --- Planetary color palette: build grid + copy hex --- */
 const PALETTE_ROWS = [

@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <audio id="bgMusic" autoplay loop preload="auto" aria-hidden="true">
+      <source src="assets/audios/sunsetHeals.mp3" type="audio/mpeg" />
+    </audio>
     <div class="background-glow" aria-hidden="true"></div>
     <header class="hero section">
       <img class="hero-sun" src="assets/images/hero-Sunset.png" alt="Glowing sunset" />
@@ -105,119 +108,17 @@
           sunset from other planets
         </p>
 
-        <div class="planet-stepper-layout planet-stepper-hybrid">
-          <ol class="planet-stepper" aria-label="Planets">
-            <li class="planet-step active" data-planet="Mercury">
-              <a href="#pane-mercury" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Mercury</span>
-                  <span class="step-subtitle">Sharp contrast with fast darkening skies.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Venus">
-              <a href="#pane-venus" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Venus</span>
-                  <span class="step-subtitle">Dense haze softens sunset into warm bands.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Earth">
-              <a href="#pane-earth" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Earth</span>
-                  <span class="step-subtitle">Balanced scattering creates familiar orange-red tones.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Mars">
-              <a href="#pane-mars" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Mars</span>
-                  <span class="step-subtitle">Dust-rich air gives cooler, muted sunset edges.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Jupiter">
-              <a href="#pane-jupiter" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Jupiter</span>
-                  <span class="step-subtitle">Layered clouds blend amber and smoky hues.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Saturn">
-              <a href="#pane-saturn" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Saturn</span>
-                  <span class="step-subtitle">Pale atmosphere fades light into soft gold.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Uranus">
-              <a href="#pane-uranus" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Uranus</span>
-                  <span class="step-subtitle">Methane tint shifts sunset toward cyan blue.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Neptune">
-              <a href="#pane-neptune" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Neptune</span>
-                  <span class="step-subtitle">Deep blue atmosphere creates dramatic cool dusk.</span>
-                </span>
-              </a>
-            </li>
-            <li class="planet-step" data-planet="Pluto">
-              <a href="#pane-pluto" class="planet-step-link">
-                <span class="planet-step-indicator" aria-hidden="true"></span>
-                <span class="step-copy">
-                  <span class="step-title">Pluto</span>
-                  <span class="step-subtitle">Thin air leaves a stark, low-light horizon.</span>
-                </span>
-              </a>
-            </li>
-          </ol>
+        <div class="planet-scroll-stepper" id="planetScrollStepper" aria-label="Planet sunset scroll stepper">
+          <div class="planet-scroll-sticky">
+            <div class="planet-stepper-top">
+              <ol class="planet-stepper-row" id="planetStepperRow" aria-label="Planets"></ol>
+            </div>
 
-          <div class="planet-scroll-column">
-            <section id="pane-mercury" class="planet-pane" data-planet="Mercury">
-              <img src="assets/images/Mercury.png" alt="Mercury sunset simulation" />
-            </section>
-            <section id="pane-venus" class="planet-pane" data-planet="Venus">
-              <img src="assets/images/Venus.png" alt="Venus sunset simulation" />
-            </section>
-            <section id="pane-earth" class="planet-pane" data-planet="Earth">
-              <img src="assets/images/Earth.png" alt="Earth sunset simulation" />
-            </section>
-            <section id="pane-mars" class="planet-pane" data-planet="Mars">
-              <img src="assets/images/Mars.png" alt="Mars sunset simulation" />
-            </section>
-            <section id="pane-jupiter" class="planet-pane" data-planet="Jupiter">
-              <img src="assets/images/Jupiter.png" alt="Jupiter sunset simulation" />
-            </section>
-            <section id="pane-saturn" class="planet-pane" data-planet="Saturn">
-              <img src="assets/images/Saturn.png" alt="Saturn sunset simulation" />
-            </section>
-            <section id="pane-uranus" class="planet-pane" data-planet="Uranus">
-              <img src="assets/images/Uranus.png" alt="Uranus sunset simulation" />
-            </section>
-            <section id="pane-neptune" class="planet-pane" data-planet="Neptune">
-              <img src="assets/images/Neptune.png" alt="Neptune sunset simulation" />
-            </section>
-            <section id="pane-pluto" class="planet-pane" data-planet="Pluto">
-              <img src="assets/images/Pluto.png" alt="Pluto sunset simulation" />
-            </section>
+            <div class="planet-stage-panel">
+              <img id="planetStageImagePrev" class="planet-stage-image is-hidden" alt="" aria-hidden="true" />
+              <img id="planetStageImageCurrent" class="planet-stage-image" alt="" />
+              <p id="planetStageDescription" class="planet-stage-description"></p>
+            </div>
           </div>
         </div>
       </section>
@@ -297,6 +198,10 @@
         </div>
       </section>
     </main>
+
+    <section class="quote-sunset section" aria-label="Sunset quote visual">
+      <img class="quote-sunset-image" src="assets/images/QuoteSunset.png" alt="Quote about sunsets" />
+    </section>
 
 
     <footer class="footer">

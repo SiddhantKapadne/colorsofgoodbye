@@ -49,6 +49,8 @@ body {
   width: min(760px, 90vw);
   display: block;
   margin: -4px auto 1.1rem;
+  transform-origin: top;
+  animation: heroSunFadeShrink 20s ease-in-out 1 forwards;
 }
 
 h1,
@@ -583,36 +585,37 @@ input[type="range"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.38rem 0.85rem;
-  border-radius: 999px;
+  padding: 0.18rem 0.1rem;
+  border-radius: 0;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.02em;
-  color: #f3cbb0;
+  color: rgba(244, 244, 244, 0.72);
   text-decoration: none;
-  border: 1px solid rgba(232, 162, 120, 0.35);
-  background: rgba(180, 95, 55, 0.22);
+  border: 0;
+  border-bottom: 1px solid rgba(244, 244, 244, 0.18);
+  background: transparent;
   box-shadow: none;
   transition:
-    background 0.15s ease,
+    opacity 0.15s ease,
     color 0.15s ease,
-    border-color 0.15s ease;
+    border-color 0.15s ease,
+    transform 0.15s ease;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
 .footer-link-cta:active {
-  background: rgba(200, 110, 68, 0.35);
+  transform: translateY(1px);
 }
 
 .footer-link-cta:hover {
-  color: #fde8d8;
-  background: rgba(200, 110, 68, 0.32);
-  border-color: rgba(245, 180, 140, 0.48);
+  color: rgba(244, 244, 244, 0.9);
+  border-color: rgba(244, 244, 244, 0.38);
 }
 
 .footer-link-cta:focus-visible {
-  outline: 2px solid rgba(251, 191, 146, 0.85);
+  outline: 2px solid rgba(244, 244, 244, 0.45);
   outline-offset: 2px;
 }
 
@@ -1577,6 +1580,212 @@ p,
   font-weight: 300;
   line-height: 1.3;
   color: rgba(244, 244, 244, 0.9);
+}
+
+.quote-sunset {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.quote-sunset-image {
+  width: 100%;
+  max-width: 950px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Planet scroll stepper (horizontal + sticky stage) */
+.planet-scroll-stepper {
+  position: relative;
+  height: 900vh;
+  margin-top: 2rem;
+}
+
+.planet-scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.95rem;
+  padding: 1rem 0;
+}
+
+.planet-stepper-top {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.planet-stepper-row {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 0.42rem;
+}
+
+.planet-stepper-row .planet-step {
+  min-width: 0;
+}
+
+.planet-stepper-btn {
+  width: 100%;
+  min-height: 36px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #6e6e6e;
+  padding: 0.2rem 0.35rem;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.1;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: color 0.2s ease;
+}
+
+.planet-stepper-btn:hover {
+  color: #f4f4f4;
+}
+
+.planet-stepper-btn:focus-visible {
+  outline: 2px solid rgba(244, 244, 244, 0.78);
+  outline-offset: 2px;
+}
+
+.planet-step.is-active .planet-stepper-btn {
+  color: #f4f4f4;
+}
+
+.planet-stage-panel {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+}
+
+.planet-stage-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 1rem 1rem 2.8rem;
+  z-index: 1;
+}
+
+.planet-stage-image.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.planet-stage-image.is-entering {
+  animation: planetImageShuffleIn 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  z-index: 3;
+}
+
+.planet-stage-image.is-leaving {
+  animation: planetImageStackOut 260ms ease both;
+  z-index: 2;
+}
+
+.planet-stage-image.is-fade-only {
+  animation: planetImageFadeIn 220ms ease both;
+}
+
+.planet-stage-description {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0.8rem;
+  margin: 0;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.3;
+  color: rgba(244, 244, 244, 0.86);
+  z-index: 2;
+}
+
+@keyframes planetImageShuffleIn {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translate3d(10px, 8px, 0) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes planetImageFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes planetImageStackOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0.35;
+    transform: translate3d(-8px, 10px, 0) scale(0.94) rotate(-1.4deg);
+    filter: blur(2px);
+  }
+}
+
+@keyframes planetImageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes heroSunFadeShrink {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  80% {
+    opacity: 0.12;
+    transform: scale(0.82);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 980px) {
+  .planet-stepper-row {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.2rem;
+  }
+
+  .planet-stepper-row .planet-step {
+    flex: 0 0 auto;
+  }
+
+  .planet-stepper-btn {
+    min-width: 92px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planet-stepper-btn {
+    transition: none;
+  }
+
+  .hero-sun {
+    animation: none;
+  }
 }
 
 @media (max-width: 920px) {
