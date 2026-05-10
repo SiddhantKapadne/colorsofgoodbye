@@ -403,23 +403,34 @@ async function copyText(text) {
   }
 }
 
+let copyToastTimer;
+function showCopyToast(message) {
+  const toast = document.getElementById("copyToast");
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add("is-visible");
+  clearTimeout(copyToastTimer);
+  copyToastTimer = setTimeout(() => {
+    toast.classList.remove("is-visible");
+  }, 2000);
+}
+
+function initFooterEmailCopy() {
+  document.querySelectorAll("[data-copy-email]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const email = btn.getAttribute("data-copy-email");
+      if (!email) return;
+      const ok = await copyText(email);
+      showCopyToast(ok ? `Copied ${email}` : "Could not copy — try again");
+    });
+  });
+}
+
 function initColorPalette() {
   const grid = document.getElementById("paletteGrid");
-  const toast = document.getElementById("copyToast");
   if (!grid) return;
 
-  let toastTimer;
   let copiedCell;
-
-  function showToast(message) {
-    if (!toast) return;
-    toast.textContent = message;
-    toast.classList.add("is-visible");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toast.classList.remove("is-visible");
-    }, 2000);
-  }
 
   PALETTE_ROWS.forEach((row) => {
     const rowEl = document.createElement("div");
@@ -474,9 +485,9 @@ function initColorPalette() {
         copiedCell = btn;
         if (ok) {
           btn.classList.add("is-copied");
-          showToast(`Copied ${hex}`);
+          showCopyToast(`Copied ${hex}`);
         } else {
-          showToast("Could not copy — try again");
+          showCopyToast("Could not copy — try again");
         }
       });
 
@@ -490,3 +501,4 @@ function initColorPalette() {
 }
 
 initColorPalette();
+initFooterEmailCopy();
